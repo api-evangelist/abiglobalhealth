@@ -1,0 +1,214 @@
+generated: '2026-09-06'
+method: derived
+source: https://docs.abi.ai/ (Abi API Reference — published object definitions for User, Subscription, Consultation, Prescription, Webhook, Conversation, Message, Indication Survey)
+api: Abi API
+docs: https://docs.abi.ai/
+note: >-
+  Derived from the entity definitions the provider publishes in its own API reference, not from an
+  OpenAPI document — Abi publishes none. Relationships are read from the URL nesting and from the
+  id-reference fields the docs declare (userId, subscriptionId, consultationId, conversationId).
+  No entity, field or relationship has been invented; fields not published are not listed.
+entities:
+- name: User
+  id_field: id
+  id_example: abi12345
+  description: >-
+    "The user object represents an account for your customer in our database. Each user is
+    automatically assigned a unique user ID by Abi upon user creation."
+  fields:
+  - id
+  - firstName
+  - lastName
+  - email
+  - gender
+  - phone
+  - origin
+  - location
+  - country
+  - physicianCountry
+  - language
+  - dateOfBirth
+  - partnerName
+  - uniqueId
+  - userStatus
+  - associatedAccounts
+  - termsAt
+  notes:
+  - >-
+    `uniqueId` is the partner's own identifier for the customer ("often your customer's insurance
+    number"), i.e. a caller-supplied alternate key.
+  - >-
+    `origin` is the country of birth, `location` the country of residence, `country` the
+    nationality, `physicianCountry` where the answering clinicians are licensed — four distinct
+    country fields, all defined in the glossary.
+- name: Subscription
+  id_field: subscriptionId
+  id_example: 8910zyx321cba
+  description: >-
+    "A period during which a user can access Abi and ask healthcare professionals medical
+    questions. Each user can have multiple subscriptions."
+  fields:
+  - subscriptionId
+  - userId
+  - active
+  - startSubscription
+  - endSubscription
+  - createdAt
+  - canceledAt
+  - renewFrom
+- name: Consultation
+  id_field: consultationId
+  id_example: 8910zyx321cba
+  description: The consultation object represents a medical question that a user asks to Abi.
+  fields:
+  - consultationId
+  - userId
+  - status
+  - questions
+  - createdAt
+  - rating
+  - professional
+- name: Prescription
+  id_field: prescriptionId
+  description: >-
+    A guided, asynchronous consultation in which the user completes an indication survey that a
+    licensed doctor reviews and turns into a prescription or clinical advice.
+  fields:
+  - prescriptionId
+  - consultationId
+  - userId
+  - status
+  - createdAt
+  - prescription
+  - indicationSurveyUrl
+  - questions
+  - isRefused
+  - rating
+  - lastClaim
+  - caseConsultationPdf
+- name: IndicationSurvey
+  id_field: id
+  description: >-
+    The structured questionnaire a user completes to request a form-based prescription. Retrieved
+    per language, with a template describing the expected answer format.
+  fields:
+  - id
+  - category
+  - isRefill
+  - title
+  - order
+  - questions
+  - template
+- name: Conversation
+  id_field: conversationId
+  description: A Health Navigator chat session belonging to one user.
+  fields:
+  - conversationId
+  - userId
+  - status
+  - messages
+  - createdAt
+  - updatedAt
+- name: Message
+  id_field: messageId
+  id_format: ULID
+  id_example: 01HK8GGQX9QXDZ9W7H9N6K8XYZ
+  description: >-
+    A single turn in a Health Navigator conversation. `content.parts[]` is a discriminated union of
+    text, action, resource, location and image parts.
+  fields:
+  - messageId
+  - conversationId
+  - role
+  - content
+  - createdAt
+  - updatedAt
+  - protocolVersion
+  enums:
+    role:
+    - user
+    - assistant
+    action.type:
+    - medical
+    - service
+    - user
+    action.triggeredBy:
+    - user
+    - assistant
+- name: Webhook
+  description: >-
+    A subscription binding an event name to a partner-supplied URL. Managed as a single collection
+    per partner account rather than as individually addressable resources.
+  fields:
+  - eventList[].name
+  - eventList[].url
+relationships:
+- from: User
+  to: Subscription
+  type: has_many
+  via: userId
+  evidence: GET /user/{userId}/subscriptions
+- from: Subscription
+  to: User
+  type: belongs_to
+  via: userId
+- from: Subscription
+  to: Subscription
+  type: has_one
+  via: renewFrom
+  label: renewed_from
+  evidence: >-
+    "The ID of the previous expired subscription, if any, that triggered the creation of this
+    subscription."
+- from: User
+  to: Consultation
+  type: has_many
+  via: userId
+  evidence: GET /user/{userId}/case-history
+- from: Consultation
+  to: User
+  type: belongs_to
+  via: userId
+- from: User
+  to: Prescription
+  type: has_many
+  via: userId
+- from: Prescription
+  to: IndicationSurvey
+  type: has_one
+  via: indicationSurveyUrl
+- from: User
+  to: Conversation
+  type: has_many
+  via: userId
+  evidence: GET /v2/health-navigator/users/{userId}/conversations
+- from: Conversation
+  to: Message
+  type: has_many
+  via: conversationId
+  evidence: messages[] on the conversation object; GET /v2/health-navigator/messages/{messageId}
+- from: User
+  to: User
+  type: has_many
+  via: associatedAccounts
+  label: group_account_members
+  evidence: >-
+    "A user can have multiple associated accounts only if your partner account allows group account
+    setup. A user for whom this field is set will be the main policy holder."
+- from: Partner
+  to: User
+  type: has_many
+  via: partnerName
+  note: >-
+    Partner is not an addressable API resource; it is the calling identity. Sub-partners are
+    selected with the subPartnerName body parameter at authentication time.
+id_conventions:
+- entity: Message
+  format: ULID
+  source: published field description
+- entity: User
+  format: opaque string
+  example: abi12345
+- entity: Subscription / Consultation
+  format: opaque string
+  example: 8910zyx321cba

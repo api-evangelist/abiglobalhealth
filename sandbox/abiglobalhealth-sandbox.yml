@@ -1,0 +1,55 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (Abi API Reference — "Getting Started > Apply for Partner Account" and "Make your first Request"; Sub-Partners Authentication)
+api: Abi API
+docs: https://docs.abi.ai/
+model: separate test partner account
+self_serve: false
+note: >-
+  Abi's test environment is granted, not self-served: a partner applies, Abi evaluates, and issues
+  a test partner account plus an API key. There is no public sandbox key, no test-mode key prefix,
+  no hosted playground and no published fixture set, so no test values are recorded here — none are
+  published and none have been invented.
+quotes:
+- >-
+  "You will be given a test partner account that allows you to use our Abi API in a test
+  environment. If you wish to integrate fully with Abi, please contact a member of our sales team."
+- >-
+  "You will be given a test partner account that will give allow you to use the Abi Widget in our
+  test environment. If you already have a test account and wish to integrate fully with Abi, please
+  contact your account manager."
+- >-
+  "To check that your integration is working correctly, let's start by creating a test user
+  account."
+test_vs_live:
+  separate_credentials: true
+  key_prefix_convention: none published
+  environment_selector:
+    mechanism: subPartnerName body parameter
+    field: subPartnerName
+    example: SubPartnerName_TEST
+    description: >-
+      "The name of the partner (company) in our system to which you want to assign your user. Use
+      this parameter to distinguish between your test and production partners."
+    note: >-
+      This is the only published mechanism for separating test from production traffic, and it is
+      an optional body field on the authentication call rather than a distinct host or key class.
+  separate_base_url: false
+  note: >-
+    The same base URLs (client-api.abi.ai / ape1.api.abi.ai / client-api.abiglobalhealth.cn) serve
+    both test and production; the account and the subPartnerName decide which side you are on.
+test_data:
+  test_cards: null
+  magic_identifiers: null
+  fixtures: null
+  time_simulation: null
+  note: >-
+    None published. Consultations and prescriptions are answered by real licensed clinicians, so
+    the published onboarding path is a real test consultation against the test partner account
+    rather than a fixture library.
+first_request:
+  documented: true
+  steps:
+  - POST https://client-api.abi.ai/partner/authorization/token with the API key in the body.
+  - POST https://client-api.abi.ai/user with the minimum required attributes, Bearer access_token.
+  source_section: Getting Started > Make your first Request

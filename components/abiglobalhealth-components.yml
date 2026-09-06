@@ -1,0 +1,71 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  https://www.abiglobalhealth.com/solutions-1 ;
+  https://www.abiglobalhealth.com/services-interfaces ;
+  https://www.abiglobalhealth.com/llms.txt
+note: >-
+  Abi markets a set of client-side "interfaces" alongside the REST API — this is the provider's own
+  framing, quoted below. No embed snippet, loader URL, npm package (other than the React Native
+  module in packages/) or configuration reference is published for any of them; each is delivered
+  through a partner engagement. Captured as a named surface inventory, not as an integration guide.
+component_count: 4
+families:
+- family: Interfaces
+  intro_quote: >-
+    "Our Interfaces — We deliver industry leading engagement rates by meeting users where they
+    already are."
+  components:
+  - name: Chatbot
+    description: >-
+      "A natural language interface, already integrated with every major chat app."
+    delivery: third-party messaging platforms (the docs and marketing pages name WhatsApp)
+    embed_snippet_published: false
+  - name: Widget
+    description: >-
+      "A turn-key graphic interface which integrates into any 3rd party app or website."
+    delivery: embedded in a partner web page or app
+    embed_snippet_published: false
+    note: >-
+      Referred to in the API reference as the "Abi Widget"; a test partner account is issued to
+      exercise it in Abi's test environment.
+  - name: Web App
+    description: >-
+      "A stand-alone secure graphic interface, available without the need to download."
+    delivery: hosted by Abi
+    hosted_at: https://www.abi.ai/
+    hosted_at_status: 200
+    hosted_at_note: >-
+      www.abi.ai serves a single-page application titled "Abi Global Health" — the hosted end-user
+      surface, distinct from docs.abi.ai (the API reference) and partner.abi.ai (the partner
+      portal login).
+  - name: APIs
+    description: >-
+      "Avoid building tools from scratch. Abi services can be fully integrated into any natural
+      language or graphic interface."
+    delivery: REST — see the Abi API entry in apis.yml
+    docs: https://docs.abi.ai/
+related_surfaces:
+- name: Partner Portal
+  url: https://partner.abi.ai/
+  status: 200
+  note: >-
+    A login-gated single-page application titled "Partner Portal" (build stamped 2023-12-22). Not
+    an embeddable component; recorded because it is the partner-facing console the API's credential
+    holders use.
+- name: React Native module
+  see: packages/abiglobalhealth-packages.yml
+  note: >-
+    @abiglobalhealth/goapp-react-native is the only shipped embed artefact with a public
+    distribution channel.
+mentioned_but_undocumented:
+- name: IVR integration
+  source: https://www.abiglobalhealth.com/llms.txt ("APIs, SDKs, widgets, chatbot, and IVR integrations")
+  note: >-
+    Named in llms.txt as a delivery channel. No IVR documentation, endpoint or configuration
+    surface is published anywhere. Recorded as a claimed capability with no public contract.
+- name: SDKs
+  source: https://www.abiglobalhealth.com/llms.txt
+  note: >-
+    llms.txt claims SDKs. The only published package is the React Native module, and it does not
+    wrap the partner REST API. Recorded as a gap between the claim and the public surface.

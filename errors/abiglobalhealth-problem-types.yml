@@ -1,0 +1,93 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (Abi API Reference — "Status Codes" section and the Error object)
+api: Abi API
+docs: https://docs.abi.ai/
+format: proprietary
+rfc9457: false
+content_type: application/json
+note: >-
+  Abi publishes no OpenAPI document, so this catalog is not derived from 4xx/5xx responses in a
+  spec — it is the provider's own published status-code table plus the published error object,
+  copied without addition. Abi documents seven status codes; no numeric or symbolic error-code
+  registry is published, so the `code` field's vocabulary is unknown.
+envelope:
+  fields:
+  - name: code
+    type: string
+    description: A short string indicating the reported error code.
+  - name: message
+    type: string
+    description: A short string indicating why the error occurred.
+  quote: >-
+    "Abi uses conventional HTTP response codes to indicate the success or failure of an API
+    request."
+problem_types:
+- status: 200
+  title: OK
+  description: Everything worked as expected.
+  class: success
+- status: 204
+  title: Success
+  description: The requested content was successfully deleted.
+  class: success
+- status: 400
+  title: Bad Request
+  description: >-
+    The request was unacceptable, often because of a missing, incorrect, unnecessary, or invalid
+    parameter.
+  class: client-error
+  remediation: Correct or remove the offending parameter and retry.
+- status: 401
+  title: Unauthorized
+  description: >-
+    Returned when the access_token has expired. Documented in the Authentication section rather
+    than the status-code table.
+  class: client-error
+  remediation: >-
+    Exchange the refresh_token at POST /partner/authorization/token/refresh for a new access token,
+    or re-authenticate with the partner API key if the refresh token has also expired (24 hours).
+  source_section: Authentication Flow
+- status: 403
+  title: Forbidden
+  description: >-
+    Your API does not have permission to perform the request. This could be because your partner
+    configuration does not allow the requested action.
+  class: client-error
+  remediation: >-
+    Permissions are set per partner account server-side; contact the Abi account manager rather
+    than adjusting a scope.
+- status: 404
+  title: Not Found
+  description: The requested resource does not exist.
+  class: client-error
+  remediation: >-
+    Explicitly documented as the response for an unknown consultationId or prescriptionId.
+- status: 409
+  title: Conflict
+  description: >-
+    The request conflicts with another request, perhaps because the resource already exists or the
+    same idempotency key was used.
+  class: client-error
+  remediation: >-
+    The idempotency mechanism the description alludes to is not documented anywhere else in the
+    reference — see conventions/abiglobalhealth-conventions.yml.
+- status: 504
+  title: Timeout
+  description: Our CloudFront service timed out. This is usually caused by an overload of requests.
+  class: server-error
+  remediation: Retry; no Retry-After header or backoff guidance is published.
+observed_platform_errors:
+- host: client-api.abi.ai
+  status: 404
+  body: '{"message":"Cannot GET /openapi.json","error":"Not Found","statusCode":404}'
+  note: >-
+    Probed 2026-09-06. The API host is a NestJS application and its own 404 envelope
+    ({message,error,statusCode}) differs from the documented {code,message} envelope. Recorded as
+    an observation, not as a documented contract.
+- host: api.abi.ai
+  status: 403
+  body: '{"message":"Missing Authentication Token"}'
+  note: >-
+    Probed 2026-09-06. api.abi.ai is an AWS API Gateway edge; this is the platform's default
+    unauthenticated response, not an Abi-authored error.

@@ -1,0 +1,30 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (full API reference reviewed) ; live probes of client-api.abi.ai 2026-09-06
+limit_count: 0
+rate_limits: []
+headers: []
+exhaustion_status: null
+note: >-
+  Abi documents no rate limits. The published API reference contains no quota, no per-key or
+  per-account ceiling, no burst allowance, no 429 in its status-code table, and no
+  X-RateLimit-*/RateLimit-*/Retry-After header documentation. An unauthenticated GET of
+  https://client-api.abi.ai/health (200, 2026-09-06) returned no rate-limit headers either. An
+  honest zero: the limits may exist server-side, but an integrator cannot read them.
+related_signals:
+- signal: 504 Timeout
+  documented_as: >-
+    "Our CloudFront service timed out. This is usually caused by an overload of requests."
+  note: >-
+    The only load-related status Abi publishes. It describes an edge timeout under load, not a
+    quota, and carries no Retry-After guidance.
+- signal: token lifetime
+  value: access_token 3600s, refresh_token 24h
+  note: >-
+    Not a rate limit, but the only published time-bounded runtime constraint an integrator must
+    code against.
+probes:
+- url: https://client-api.abi.ai/health
+  status: 200
+  rate_limit_headers_present: false
+  checked: '2026-09-06'

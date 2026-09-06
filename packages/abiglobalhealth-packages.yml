@@ -1,0 +1,93 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  https://registry.npmjs.org/-/v1/search?text=abiglobalhealth ;
+  https://registry.npmjs.org/@abiglobalhealth%2Fgoapp-react-native ;
+  https://api.github.com/orgs/abiglobalhealth/repos
+note: >-
+  Registries searched 2026-09-06: npm, PyPI, RubyGems, crates.io, NuGet, Maven Central, pkg.go.dev
+  and Packagist, plus the GitHub organisation. Exactly one first-party published package exists —
+  an npm React Native module under the company's own @abiglobalhealth scope. The API reference at
+  docs.abi.ai documents no client library in any language and links to no SDK download, so an
+  integrator of the REST API writes their own HTTP client.
+package_count: 1
+official_count: 1
+registries_searched:
+- registry: npm
+  endpoint: https://registry.npmjs.org/-/v1/search?text=abiglobalhealth
+  status: 200
+  result: 1 first-party package under the @abiglobalhealth scope
+- registry: pypi
+  endpoint: https://pypi.org/pypi/abiglobalhealth/json
+  status: 404
+  result: none
+  note: >-
+    The pypi.org HTML search page answered a JavaScript bot challenge rather than results, so the
+    JSON metadata endpoint was used for the two plausible project names (abiglobalhealth,
+    abi-global-health); both 404.
+- registry: rubygems
+  endpoint: https://rubygems.org/api/v1/search.json?query=abiglobalhealth
+  status: 200
+  result: none (empty array)
+- registry: crates.io
+  endpoint: https://crates.io/api/v1/crates?q=abiglobalhealth
+  status: 200
+  result: none (total 0)
+- registry: nuget
+  endpoint: https://azuresearch-usnc.nuget.org/query?q=abiglobalhealth
+  status: 200
+  result: none (totalHits 0)
+- registry: maven-central
+  endpoint: https://search.maven.org/solrsearch/select?q=abiglobalhealth
+  status: 200
+  result: none (numFound 0)
+- registry: pkg.go.dev
+  endpoint: https://proxy.golang.org/github.com/abiglobalhealth/react-native-sdk/@v/list
+  status: 404
+  result: none
+- registry: packagist
+  endpoint: https://packagist.org/search.json?q=abiglobalhealth
+  status: 200
+  result: none (total 0)
+packages:
+- name: '@abiglobalhealth/goapp-react-native'
+  registry: npm
+  url: https://www.npmjs.com/package/@abiglobalhealth/goapp-react-native
+  official: true
+  official_basis: >-
+    Published under the @abiglobalhealth npm scope, the same name as the company's GitHub
+    organisation (github.com/abiglobalhealth, "Abi Global Health", info@abi.ai).
+  language: JavaScript / TypeScript (React Native)
+  version: 1.13.3
+  published: '2025-02-27'
+  first_published: '2025-02-26'
+  version_count: 3
+  description: >-
+    Registry description is a single unedited line — "`react-native-agora ract-native-svg`" (typo
+    in the original). No README prose beyond that. The dependencies named (Agora, react-native-svg)
+    indicate a React Native embed for Abi's video-consultation and chat surface.
+  repository: https://github.com/abiglobalhealth/react-native-sdk
+  repository_status: 404
+  repository_note: >-
+    The repository the package points at returns 404 to an authenticated GitHub API call
+    (2026-09-06) — it is private or deleted. The package is public; its source is not.
+  license: null
+  license_note: No license field is set in the published package metadata.
+  covers_rest_api: false
+  covers_rest_api_note: >-
+    This is a mobile embed for the Abi client experience, not a client library for the partner REST
+    API documented at docs.abi.ai. No package wraps that API.
+decay_signal:
+  latest_release: '2025-02-27'
+  days_since_release_at_scan: 556
+  note: >-
+    The only first-party package has not shipped a release in over 18 months, and all three of its
+    versions were published inside a 26-hour window in February 2025. Meanwhile the API reference
+    it sits beside was rebuilt on 2026-08-27 and carries a v2 Health Navigator surface the package
+    predates. Recorded as a dated fact, not a judgement.
+cdn_distribution:
+  present: false
+  note: >-
+    The Abi Widget and chatbot are described on the website as embeddable interfaces (see
+    components/abiglobalhealth-components.yml) but no loader script URL, unpkg/jsDelivr path or
+    pinned build is published, so there is no CDN artefact to version.

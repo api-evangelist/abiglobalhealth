@@ -1,0 +1,255 @@
+generated: '2026-09-06'
+method: probed
+source: live GET of each path on each host, 2026-09-06
+note: >-
+  Nothing was found. Eleven hosts x ten paths were probed and not one returned a real discovery
+  document. Three distinct failure shapes appear below and they are recorded separately because
+  they mean different things: a genuine 404, a JSON API 404 from the NestJS API host, and a
+  200-with-an-SPA-shell catch-all (abi.ai, www.abi.ai, docs.abi.ai and partner.abi.ai answer 200
+  with their app HTML for EVERY /.well-known/* path, which is a false positive, not a document).
+  No WellKnown and no SecurityTxt pointer is emitted — this file records an absence.
+result: none
+documents_found: 0
+hosts:
+- host: www.abiglobalhealth.com
+  role: primary website
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /security.txt
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 200
+    file: ../llms/abiglobalhealth-llms.txt
+    content_type: text/plain
+    bytes: 7800
+    note: >-
+      The one real document on any host. Saved verbatim and pointed at with type LLMsTxt; it is not
+      a /.well-known/ resource so it earns no WellKnown pointer.
+- host: abiglobalhealth.com
+  role: apex (redirects to www)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 200
+    file: ../llms/abiglobalhealth-llms.txt
+- host: client-api.abi.ai
+  role: API baseURL (primary)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 404
+    file: null
+  note: >-
+    Clean JSON 404s from the NestJS application
+    ({"message":"Cannot GET ...","error":"Not Found","statusCode":404}) — an unambiguous negative,
+    not a catch-all.
+- host: ape1.api.abi.ai
+  role: API baseURL (Hong Kong)
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /llms.txt
+    status: 404
+    file: null
+- host: api.abi.ai
+  role: AWS API Gateway edge referenced from the docs bundle
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 403
+    file: null
+  - path: /.well-known/agent.json
+    status: 403
+    file: null
+  - path: /.well-known/api-catalog
+    status: 403
+    file: null
+  - path: /llms.txt
+    status: 403
+    file: null
+  note: >-
+    Every path returns {"message":"Missing Authentication Token"} — the AWS API Gateway default for
+    an unmatched route. A 403 here is an absent route, not a withheld document.
+- host: docs.abi.ai
+  role: API reference (docs host)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+  - path: /.well-known/api-catalog
+    status: 200
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+  - path: /llms.txt
+    status: 200
+    file: null
+  note: >-
+    FALSE POSITIVE. Every path returns the same 488-byte single-page-app shell
+    (<!doctype html ... data-version="3.7.0"> with an empty #app div). Content, not status, decides
+    — these are misses.
+- host: abi.ai
+  role: end-user web app (apex)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+  - path: /llms.txt
+    status: 200
+    file: null
+  note: FALSE POSITIVE — SPA catch-all returning the app HTML for every path.
+- host: www.abi.ai
+  role: end-user web app
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+  - path: /llms.txt
+    status: 200
+    file: null
+  note: FALSE POSITIVE — SPA catch-all.
+- host: partner.abi.ai
+  role: partner portal login
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 200
+    file: null
+  - path: /.well-known/agent.json
+    status: 200
+    file: null
+  - path: /llms.txt
+    status: 200
+    file: null
+  note: >-
+    FALSE POSITIVE — 466-byte SPA shell titled "Partner Portal" for every path.
+- host: pro.abi.ai
+  role: referenced from the docs bundle as pro.abi.ai/join
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  note: >-
+    Serves a Squarespace "Domain Not Claimed" page. The docs application still links
+    https://pro.abi.ai/join — a dead link inside the provider's own reference.
+- host: client-api.abiglobalhealth.cn
+  role: API baseURL (China), published in the docs
+  documents:
+  - path: /.well-known/security.txt
+    status: null
+    file: null
+  - path: /.well-known/agent-card.json
+    status: null
+    file: null
+  - path: /.well-known/agent.json
+    status: null
+    file: null
+  note: >-
+    Did not resolve in DNS from a US vantage point (NXDOMAIN). Unprobeable from here, not proven
+    absent.
+agent_card:
+  found: false
+  note: >-
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json were probed on all eleven
+    hosts. Every result was a 404, a 403 route-miss, or a 200 HTML SPA shell. No a2a/ artifact has
+    been written and no AgentCard pointer emitted.

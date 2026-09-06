@@ -1,0 +1,227 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (Abi API Reference — Introduction, Status Codes, Users, Subscriptions, Consultations, Prescriptions, Webhooks, Health Navigator)
+note: >-
+  Read from the provider's own published API reference. Abi publishes no OpenAPI document, so
+  nothing here is derived from a spec; each item cites the docs statement it came from.
+api: Abi API
+docs: https://docs.abi.ai/
+api_style:
+  protocol: REST/HTTP
+  quote: >-
+    "It is organized around REST and has predictable, resource-oriented URLs. It accepts
+    form-encoded request bodies, returns JSON-encoded responses, and uses standard HTTP response
+    codes, authentication, and verbs."
+  request_encoding: form-encoded (per the docs statement above); JSON bodies are shown in the
+    reference examples
+  response_encoding: application/json
+  path_style: >-
+    Nested, resource-oriented, mostly unversioned at the root (/user, /consultation, /prescription,
+    /webhook). The Health Navigator surface is the exception and is explicitly versioned:
+    /v2/health-navigator/...
+auth:
+  style: partner API key exchanged for a 1-hour Bearer access_token
+  see: authentication/abiglobalhealth-authentication.yml
+regional_bases:
+  published: true
+  bases:
+  - region: primary / default
+    url: https://client-api.abi.ai
+  - region: Hong Kong
+    url: https://ape1.api.abi.ai
+  - region: China
+    url: https://client-api.abiglobalhealth.cn
+    note: >-
+      Published in the docs; did not resolve in DNS from a US vantage point on 2026-09-06
+      (NXDOMAIN). Recorded as published-but-unreachable-from-here, not as absent.
+idempotency:
+  coverage: none
+  supported: false
+  header: null
+  scope: []
+  evidence: >-
+    The only mention of idempotency anywhere in the published reference is inside the 409 status
+    description — "The request conflicts with another request, perhaps because the resource already
+    exists or the same idempotency key was used." No idempotency header, key format, retention
+    window, or per-operation replay guarantee is documented, so an integrator cannot use one.
+  note: >-
+    The 409 text implies a mechanism exists server-side. It is not documented, therefore it is not
+    usable, therefore coverage is `none` and no Idempotency pointer is emitted.
+reversibility:
+  grade: documented
+  supported: true
+  note: >-
+    Every create in the Abi API has a documented counterpart operation, and the docs are explicit
+    that most of them are terminal rather than undoable. No time-bounded window is stated anywhere,
+    so this grades `documented` and not `verified`. No window has been invented.
+  surfaces:
+  - write: POST /user + POST /user/{userId}/subscription (create user / subscription)
+    reversal: DELETE /user/{userId}/subscription/{subscriptionId} (Cancel User Subscription)
+    window: not stated
+    reversible_after: false
+    docs_quote: >-
+      "Use this endpoint to cancel a specific subscription for a specific user. This is an
+      irreversible action. Once a subscription has been cancelled, it cannot be reactivated."
+  - write: user account activation (via an active subscription)
+    reversal: DELETE /user/{userId}/subscriptions (Deactivate User Account)
+    window: none — reversal is open-ended
+    reversible_after: true
+    docs_quote: >-
+      "If you deactivate a user, the user will not be deleted from our database, so you can
+      reactivate their account at any time by creating a new subscription associated with the same
+      user account."
+  - write: POST /consultation (Create Consultation)
+    reversal: PATCH /consultation/{consultationId}/cancel
+    window: >-
+      state-bounded, not time-bounded — "you cannot cancel a consultation that has already been
+      cancelled or closed"
+    reversible_after: false
+    docs_quote: >-
+      "This is an irreversible action. Once a consultation has been cancelled, it will no longer be
+      available to the healthcare professional."
+  - write: POST /prescription (request a form-based prescription)
+    reversal: PATCH /prescription/{prescriptionId}/cancel
+    window: >-
+      state-bounded — "you cannot cancel a prescription request that has already been cancelled or
+      closed"
+    reversible_after: false
+  - write: POST /v2/health-navigator/users/{userId}/conversations (start a conversation)
+    reversal: PATCH /v2/health-navigator/conversations/close
+    window: >-
+      not stated; conversations also close automatically "due to inactivity" per the
+      conversationClosed webhook description
+    reversible_after: false
+  - write: POST /webhook (subscribe to events)
+    reversal: DELETE /webhook
+    window: not stated
+    reversible_after: true
+dry_run_mode:
+  supported: false
+  note: >-
+    No dry-run, simulate or preview mode is documented. The nearest published equivalent is a
+    separate test partner account — see sandbox/abiglobalhealth-sandbox.yml.
+pagination:
+  documented: false
+  note: >-
+    Collection endpoints (Get All User Consultations, Get All User Subscriptions, conversation
+    history) are documented as returning arrays. No page/limit/offset/cursor parameter and no
+    pagination envelope is published.
+filtering_and_search:
+  supported: true
+  operations:
+  - POST /user/search
+  - GET /user/search
+  note: >-
+    User lookup is published in both a POST and a GET form. No documented query grammar beyond the
+    user attributes.
+versioning:
+  style: path-prefix, applied selectively
+  current: >-
+    Health Navigator is on /v2/. The user, subscription, consultation, prescription and webhook
+    surfaces carry no version segment at all.
+  see: lifecycle/abiglobalhealth-lifecycle.yml
+error_envelope:
+  shape: proprietary
+  fields:
+  - name: code
+    type: string
+    description: A short string indicating the reported error code.
+  - name: message
+    type: string
+    description: A short string indicating why the error occurred.
+  rfc9457: false
+  see: errors/abiglobalhealth-problem-types.yml
+rate_limit_signaling:
+  documented: false
+  note: >-
+    No X-RateLimit-*/RateLimit-*/Retry-After headers and no published quota. The only
+    load-related status published is 504, described as "Our CloudFront service timed out. This is
+    usually caused by an overload of requests."
+  see: rate-limits/abiglobalhealth-rate-limits.yml
+request_id_tracing:
+  documented: false
+  note: >-
+    No request-id or correlation header is documented. api.abi.ai (the AWS API Gateway edge) does
+    return x-amzn-RequestId / x-amz-apigw-id on its own error responses, but that is a platform
+    artefact, not a documented contract.
+async_and_callbacks:
+  model: webhooks
+  note: >-
+    Consultations and prescriptions are inherently asynchronous — a case is created, claimed by a
+    healthcare professional, and resolved later. Results are pushed back over webhooks rather than
+    polled, though GET-by-id endpoints exist for every case type.
+  see: asyncapi/abiglobalhealth-webhooks.yml
+published_operations:
+  count: 39
+  source: >-
+    Extracted from the endpoint components of the published API reference application at
+    https://docs.abi.ai/ (2026-09-06). Every entry below appears verbatim in that reference; none
+    was probed, inferred or invented, and the API itself was never called.
+  note: >-
+    Path parameters are written as the reference writes them (:name). The reference also shows one
+    illustrative endpoint, GET /protected/resource, inside the authentication example — it is a
+    placeholder, not a real operation, and is excluded from the count.
+  operations:
+  - {method: POST,   path: /partner/authorization/token,                          group: authentication}
+  - {method: POST,   path: /partner/authorization/token/refresh,                  group: authentication}
+  - {method: POST,   path: /user,                                                 group: users}
+  - {method: GET,    path: /user/:userId,                                         group: users}
+  - {method: PUT,    path: /user/:userId,                                         group: users}
+  - {method: POST,   path: /user/search,                                          group: users}
+  - {method: GET,    path: /user/search,                                          group: users}
+  - {method: POST,   path: /user/:userId/subscription,                            group: subscriptions}
+  - {method: POST,   path: /user/:id/subscriptions,                               group: subscriptions}
+  - {method: GET,    path: /user/:userId/subscription/:subscriptionId,            group: subscriptions}
+  - {method: DELETE, path: /user/:userId/subscription/:subscriptionId,            group: subscriptions}
+  - {method: GET,    path: /user/:userId/subscriptions,                           group: subscriptions}
+  - {method: DELETE, path: /user/:userId/subscriptions,                           group: subscriptions}
+  - {method: GET,    path: /user/:userId/subscription/:subscriptionId/history,    group: subscriptions}
+  - {method: PATCH,  path: /user/:userId/subscription/:subscriptionId/history/cancel, group: subscriptions}
+  - {method: POST,   path: /consultation,                                         group: consultations}
+  - {method: GET,    path: /consultation/:consultationId,                         group: consultations}
+  - {method: POST,   path: /consultation/:consultationId,                         group: consultations}
+  - {method: PATCH,  path: /consultation/:consultationId/cancel,                  group: consultations}
+  - {method: PATCH,  path: /consultation/:consultationId/close,                   group: consultations}
+  - {method: GET,    path: /user/:userId/case-history,                            group: consultations}
+  - {method: POST,   path: /webhook,                                              group: webhooks}
+  - {method: GET,    path: /webhook,                                              group: webhooks}
+  - {method: DELETE, path: /webhook,                                              group: webhooks}
+  - {method: POST,   path: /webhook/format-event,                                 group: webhooks}
+  - {method: POST,   path: /v2/health-navigator/users/:userId/conversations,      group: health-navigator}
+  - {method: GET,    path: /v2/health-navigator/users/:userId/conversations,      group: health-navigator}
+  - {method: GET,    path: /v2/health-navigator/conversations/:conversationId,    group: health-navigator}
+  - {method: PATCH,  path: /v2/health-navigator/conversations/close,              group: health-navigator}
+  - {method: POST,   path: /v2/health-navigator/messages,                         group: health-navigator}
+  - {method: GET,    path: /v2/health-navigator/messages/:messageId,              group: health-navigator}
+  - {method: GET,    path: /prescription/survey/:lang,                            group: prescriptions}
+  - {method: GET,    path: /prescription/survey/:lang/:idIndicationSurvey,        group: prescriptions}
+  - {method: GET,    path: /prescription/survey/:lang/:idIndicationSurvey/template, group: prescriptions}
+  - {method: POST,   path: /prescription/survey/validate,                         group: prescriptions}
+  - {method: POST,   path: /prescription,                                         group: prescriptions}
+  - {method: GET,    path: /prescription/:prescriptionId,                         group: prescriptions}
+  - {method: PATCH,  path: /prescription/:prescriptionId/cancel,                  group: prescriptions}
+  - {method: PATCH,  path: /prescription/:prescriptionId/close,                   group: prescriptions}
+machine_readable_contract:
+  openapi: false
+  asyncapi: false
+  graphql: false
+  postman: false
+  grpc: false
+  wsdl: false
+  probed:
+  - {url: 'https://client-api.abi.ai/openapi.json', status: 404}
+  - {url: 'https://client-api.abi.ai/openapi.yaml', status: 404}
+  - {url: 'https://client-api.abi.ai/swagger.json', status: 404}
+  - {url: 'https://client-api.abi.ai/api-docs', status: 404}
+  - {url: 'https://client-api.abi.ai/redoc', status: 404}
+  - {url: 'https://client-api.abi.ai/v1/openapi.json', status: 404}
+  - {url: 'https://client-api.abi.ai/graphql', status: 404}
+  - {url: 'https://ape1.api.abi.ai/openapi.json', status: 404}
+  - {url: 'https://ape1.api.abi.ai/swagger.json', status: 404}
+  - {url: 'https://ape1.api.abi.ai/graphql', status: 404}
+  - {url: 'https://docs.abi.ai/openapi.json', status: 200, note: 'SPA shell (488 bytes of HTML), not a spec'}
+  - {url: 'https://docs.abi.ai/swagger.json', status: 200, note: 'SPA shell, not a spec'}
+  note: >-
+    Probed 2026-09-06. NO OPENAPI HAS BEEN GENERATED FROM THE DOCUMENTATION. The operation
+    inventory above is a record of what the provider documents, not a contract, and it is
+    deliberately not shaped as one.

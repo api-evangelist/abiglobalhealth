@@ -1,0 +1,94 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (Abi API Reference — "Getting Started" and "Authentication" sections)
+note: >-
+  Abi publishes no OpenAPI/Swagger document, so this profile is read from the provider's own public
+  API reference at docs.abi.ai rather than derived from securitySchemes. Every statement below is
+  taken verbatim from that reference.
+api: Abi API
+docs: https://docs.abi.ai/
+onboarding:
+  model: partner-gated
+  steps:
+  - Apply for a partner account through the docs "Apply for Partner Account" form.
+  - Abi evaluates the request and contacts the applicant with an API key.
+  - A test partner account is issued first; full integration requires contacting the sales team.
+  quote: >-
+    "After you apply for an account, we will evaluate your request and contact you with your API
+    key. Once you have tested the service, if you decide to integrate fully with Abi, please
+    contact our sales team."
+schemes:
+- id: partner-api-key
+  type: apiKey
+  in: body
+  name: apiKey
+  description: >-
+    The long-lived partner credential. It is NOT sent on ordinary API calls — it is exchanged in
+    the request body of the token endpoint for a short-lived access token.
+  used_at: POST https://client-api.abi.ai/partner/authorization/token
+  handling_guidance: >-
+    "Do not share your secret API key or any account information in publicly accessible areas such
+    as GitHub, client-side code, and so forth."
+- id: bearer-access-token
+  type: http
+  scheme: bearer
+  in: header
+  name: Authorization
+  description: >-
+    The access_token returned by the token endpoint, sent as `Authorization: Bearer <access_token>`
+    on all protected endpoints. token_type is always "Bearer".
+  ttl_seconds: 3600
+  expiry_behavior: >-
+    "If the access_token is expired, the API will return a 401 Unauthorized response."
+- id: refresh-token
+  type: http
+  scheme: bearer
+  description: >-
+    The refresh_token returned alongside the access token, exchanged at the refresh endpoint for a
+    new access token.
+  used_at: POST https://client-api.abi.ai/partner/authorization/token/refresh
+  ttl_hours: 24
+  expiry_behavior: >-
+    "If the refresh token expires, a new API key authentication is required."
+token_endpoints:
+- operation: create-token
+  method: POST
+  url: https://client-api.abi.ai/partner/authorization/token
+  request: API key in the request body
+  response_fields:
+  - name: access_token
+    description: Your access token, used in the authorization header.
+  - name: token_type
+    description: The type of token returned. Always "Bearer".
+  - name: refresh_token
+    description: Your refresh token, used to obtain a new access token.
+- operation: refresh-token
+  method: POST
+  url: https://client-api.abi.ai/partner/authorization/token/refresh
+sub_partners:
+  supported: true
+  description: >-
+    "Subpartners can authenticate using the same process as partners, but must include their
+    subPartnerName in the request body." The same applies to the refresh call.
+  parameter:
+    name: subPartnerName
+    type: string
+    required: false
+    example: SubPartnerName_TEST
+    description: >-
+      The name of the partner (company) in Abi's system to which the user is assigned. Also used to
+      distinguish test partners from production partners.
+standards:
+  oauth2: false
+  oidc: false
+  note: >-
+    The flow is bearer-token-shaped and access/refresh-token-shaped but is NOT an OAuth 2.0
+    implementation — Abi publishes no /token grant_type vocabulary, no scopes, no authorization
+    endpoint, and no /.well-known/oauth-authorization-server (probed 2026-09-06, 404 on every host).
+    Recorded as a proprietary API-key-for-bearer-token exchange, not oauth2.
+scopes:
+  published: false
+  note: >-
+    No scope or permission reference is published. Access differences are configured per partner
+    account server-side — the 403 status description reads "your partner configuration does not
+    allow the requested action". scopes/ is therefore intentionally absent.

@@ -1,0 +1,33 @@
+generated: '2026-09-06'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.abiglobalhealth.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  8 14:48:53 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: docs.abi.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb  3 23:59:59 2027 GMT
+  hsts: false
+- host: client-api.abi.ai
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb  3 23:59:59 2027 GMT
+  hsts: null
+domains:
+- domain: abiglobalhealth.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+- domain: abi.ai
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

@@ -1,0 +1,79 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ ; https://www.abiglobalhealth.com/ ; live probes 2026-09-06
+api: Abi API
+docs: https://docs.abi.ai/
+versioning:
+  scheme: path-prefix, applied selectively
+  current_versions:
+  - surface: Users, Subscriptions, Consultations, Prescriptions, Webhooks
+    version: unversioned
+    note: These paths carry no version segment (/user, /consultation, /prescription, /webhook).
+  - surface: Health Navigator
+    version: v2
+    note: /v2/health-navigator/... — the only versioned surface in the published reference.
+  policy_published: false
+  note: >-
+    No versioning policy page is published. The docs application itself reports
+    data-version="3.7.0" and data-build-date="Thu, 27 Aug 2026 11:32:57 GMT" in its HTML root —
+    that is the documentation build, not the API version, and is recorded here only as the freshest
+    dated signal available.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  deprecated_operations: []
+  note: >-
+    No deprecation policy, no RFC 8594 Sunset/Deprecation header documentation, and no operation
+    marked deprecated in the published reference. No Deprecation pointer is emitted.
+status_page:
+  published: false
+  probed:
+  - url: https://status.abi.ai/
+    status: null
+    note: DNS did not resolve (2026-09-06).
+  - url: https://status.abiglobalhealth.com/
+    status: null
+    note: DNS did not resolve (2026-09-06).
+  - url: https://abi.statuspage.io/
+    status: 200
+    note: >-
+      Returns an Atlassian Statuspage titled "ABI Status - Page Inactive" — "This page is currently
+      inactive and can only be viewed by team members." Nothing on it names Abi Global Health, and
+      `abi` is a common three-letter Statuspage subdomain, so ownership cannot be established. Not
+      counted as a status page in either direction.
+  health_endpoint:
+    url: https://client-api.abi.ai/health
+    status: 200
+    body: '{"api":{"status":"ok"},"sdk":{"status":"ok"}}'
+    probed: '2026-09-06'
+    note: >-
+      A live, unauthenticated health endpoint exists on both the primary and Hong Kong API hosts.
+      It is a liveness probe, not a status page with incident history, so no StatusPage pointer is
+      emitted.
+sla:
+  published: false
+  note: >-
+    No public SLA, uptime commitment or support-response target. Terms are contractual — the docs
+    refer to "the mutually agreed-upon period specified in your contract with us".
+changelog:
+  published: false
+  note: >-
+    No dated changelog, release-notes page or RSS feed was found on abiglobalhealth.com, abi.ai or
+    docs.abi.ai. The docs SPA embeds a build date but no history.
+support:
+  contact_page: https://www.abiglobalhealth.com/contact
+  documented_email: client.success@abi.ai
+  documented_email_source: >-
+    https://docs.abi.ai/ — partner-account application error text, "Try sending an email to
+    client.success@abi.ai."
+  org_email: info@abi.ai
+  org_email_source: https://api.github.com/orgs/abiglobalhealth
+company_lifecycle:
+  founded: 2016
+  founded_location: Dublin, Ireland
+  legal_entity: Abi Global Health Ltd. (AGH)
+  ai_lab_established: 2020
+  source: https://www.abiglobalhealth.com/llms.txt
+  note: >-
+    Copyright line on the site reads "© 2026 Abi Global Health Limited"; the company is active.

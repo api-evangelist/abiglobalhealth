@@ -1,0 +1,30 @@
+generated: '2026-09-06'
+method: searched
+source: https://www.abiglobalhealth.com/ ; https://www.abiglobalhealth.com/sitemap.xml ; https://docs.abi.ai/
+plan_count: 0
+currency: null
+plans: []
+note: >-
+  Abi publishes no pricing at all. The full site sitemap (54 URLs, fetched 2026-09-06) contains no
+  /pricing, /plans or /packages page, and neither the site footer nor the API reference names a
+  price, tier, quota or unit rate. Every commercial path is a sales gate: the site's only calls to
+  action are "book a demo" (/demo-form) and "Contact Us", and the API reference states that a
+  partner account is issued after evaluation and that "if you decide to integrate fully with Abi,
+  please contact our sales team." This is an enterprise/B2B2C contract-priced model — an honest
+  zero, not a missing page.
+gates:
+- type: demo-request
+  url: https://www.abiglobalhealth.com/demo-form
+  status: 200
+- type: sales-contact
+  url: https://www.abiglobalhealth.com/contact
+  status: 200
+- type: partner-account-application
+  url: https://docs.abi.ai/
+  status: 200
+  note: The "Apply for Partner Account" form lives inside the docs application itself.
+free_tier:
+  available: false
+  test_access: >-
+    A test partner account is granted as part of the evaluation, not as a self-serve free tier —
+    see sandbox/abiglobalhealth-sandbox.yml.

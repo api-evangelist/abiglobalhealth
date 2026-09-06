@@ -1,0 +1,150 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (Abi API Reference — "Webhooks" and "Health Navigator > Webhook Responses" sections)
+api: Abi API
+docs: https://docs.abi.ai/
+asyncapi_spec_published: false
+note: >-
+  Abi publishes no AsyncAPI document. It does publish a complete, named webhook event catalog with
+  per-event descriptions and the service each event applies to; that catalog is captured here
+  verbatim. No AsyncAPI has been generated from it — the pipeline does not author event contracts
+  on a provider's behalf.
+transport: HTTPS POST to a subscriber-supplied URL
+direction: outbound (Abi -> partner)
+delivery:
+  quote: >-
+    "Abi uses webhooks to notify your application when an event occurs in your account, so you can
+    respond to it. Webhooks are particularly useful for asynchronous events, such as when a
+    consultation is resolved by one of our healthcare professionals or claimed."
+  per_event_urls: true
+  per_event_urls_quote: You can configure different webhooks for different event types.
+  signing: not documented
+  retries: not documented
+  ordering: not documented
+management_operations:
+- method: POST
+  url: https://client-api.abi.ai/webhook
+  summary: Create Webhook — subscribe to events by posting an eventList of {name, url} pairs.
+  auth: Bearer access_token
+- method: GET
+  url: https://client-api.abi.ai/webhook
+  summary: Get Your Webhook — retrieve the configured subscriptions.
+  auth: Bearer access_token
+- method: DELETE
+  url: https://client-api.abi.ai/webhook
+  summary: Delete a webhook subscription.
+  auth: Bearer access_token
+- method: POST
+  url: https://client-api.abi.ai/webhook/format-event
+  summary: >-
+    Event Format — format the webhook object. Body is {type, payload} where payload holds
+    event-specific data.
+  auth: Bearer access_token
+subscription_payload:
+  eventList:
+    type: array
+    description: A list of events and URLs to subscribe to.
+    item_fields:
+    - name: name
+      type: string
+      example: eventName
+    - name: url
+      type: string
+      example: your_url
+event_payload:
+  description: >-
+    "The webhook object is a JSON object containing information about the event that triggered the
+    webhook. Once you subscribe to a webhook, you will receive a POST request with the webhook
+    object in its body whenever an event occurs."
+  fields:
+  - name: eventName
+    type: string
+    description: The name of the event that triggered the webhook.
+    example: questionResolved
+  - name: user
+    type: object
+    description: The user object containing details about the user.
+  - name: case
+    type: object
+    description: The case object containing details about the consultation.
+event_count: 19
+events:
+- name: caseClosed
+  description: Triggered after the case is closed, with or without a rating.
+  services: consultation, form-based prescription, video consultation
+- name: caseSkipped
+  description: Triggered after the HCP skips a case.
+  services: consultation, form-based prescription, video consultation
+- name: caseCanceled
+  description: Triggered after the case is cancelled by the user, HCP, or administrator.
+  services: consultation, form-based prescription, video consultation
+- name: caseClaimed
+  description: Triggered after the case is claimed by an HCP.
+  services: consultation, form-based prescription, video consultation
+- name: caseClaimCanceled
+  description: >-
+    Triggered after the claimed case is cancelled, meaning that the case is available to the rest
+    of the pool.
+  services: consultation, form-based prescription, video consultation
+- name: questionAccepted
+  description: Triggered after the case becomes available to a pool of HCPs.
+  services: consultation, form-based prescription, video consultation
+- name: questionResolved
+  description: Triggered after the case has been answered, meaning that the HCP has provided an answer.
+  services: consultation, form-based prescription, video consultation
+- name: prescriptionCreated
+  description: >-
+    Triggered after a prescription is created, usually when we are integrated with other providers
+    and need to inform the client.
+  services: video consultation, form-based prescription
+- name: prescriptionFileReady
+  description: Triggered after a prescription file is created.
+  services: video consultation, form-based prescription
+- name: prescriptionResolved
+  description: Triggered after the form-based prescription is resolved.
+  services: form-based prescription
+- name: prescriptionPharmacySelected
+  description: >-
+    Triggered after the user selects a pharmacy to which the prescription will be sent, depending
+    on the prescription integration.
+  services: video consultation
+- name: prescriptionDeliveryAsked
+  description: >-
+    Triggered after the user is asked to provide the delivery address for receiving the medication,
+    depending on the prescription integration.
+  services: video consultation
+- name: prescriptionDeliveryOrPharmacyAsked
+  description: >-
+    Triggered after the user is asked to provide the delivery address for receiving the medication
+    or the pharmacy to which the prescription will be sent, depending on the prescription
+    integration.
+  services: video consultation
+- name: prescriptionPatientAddressAsked
+  description: >-
+    Triggered after the user is asked to provide their address. Most integrations require this
+    information, sometimes in different formats.
+  services: video consultation
+- name: videoConsultationResolved
+  description: Triggered after the video consultation is resolved.
+  services: video consultation
+- name: videoCallStarted
+  description: Triggered after the video call for the video consultation case has started.
+  services: video consultation
+- name: videoCallFinished
+  description: Triggered after the video call for the video consultation case has finished.
+  services: video consultation
+- name: conversationReplied
+  description: Sent when Health Navigator replies to a message in an open conversation.
+  services: Health Navigator
+  payload_fields:
+  - userId
+  - conversationInfo
+  - message
+- name: conversationClosed
+  description: >-
+    Sent when a conversation is closed, either manually via the API or automatically due to
+    inactivity.
+  services: Health Navigator
+  payload_fields:
+  - userId
+  - conversationInfo

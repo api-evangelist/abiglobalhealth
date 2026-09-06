@@ -1,0 +1,134 @@
+generated: '2026-09-06'
+method: derived
+source: https://docs.abi.ai/ (published operation list)
+status: candidate
+note: >-
+  ABI GLOBAL HEALTH SHIPS NO MCP SERVER. Nothing on abiglobalhealth.com, abi.ai, docs.abi.ai or the
+  github.com/abiglobalhealth organisation mentions MCP, and the company's own llms.txt — which
+  enumerates its delivery channels as "APIs, SDKs, widgets, chatbot, and IVR integrations" — does
+  not name one. No endpoint URL has been guessed or probed into existence. The tools[] below are a
+  CANDIDATE mapping derived from the operations the provider documents, offered as a design
+  sketch only; they are not callable and this file is pointed at with type X-MCPServerCandidate,
+  never MCPServer.
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: unknown
+  verified: derived
+searched:
+- surface: https://www.abiglobalhealth.com/llms.txt
+  result: no MCP mention
+- surface: https://docs.abi.ai/ (full reference bundle)
+  result: no MCP mention
+- surface: https://github.com/abiglobalhealth (30 public repos)
+  result: >-
+    No MCP server repo. One fork of mem0 ("Universal memory layer for AI Agents; Announcing
+    OpenMemory MCP") exists in the org — a fork of a third-party project, not an Abi MCP server.
+- surface: npm @abiglobalhealth scope
+  result: one React Native package, no MCP package
+agent_readiness_note: >-
+  Worth recording for context: Abi's own product IS an LLM-driven assistant (Health Navigator,
+  /v2/health-navigator/*), and its message format already carries a discriminated `parts` union of
+  text / action / resource / image with an `action` object typed medical|service|user and a
+  `triggeredBy` of user|assistant. That is a tool-call shape in all but name. The company builds
+  agent surfaces for its partners but exposes none for agents calling it.
+candidate_tool_count: 24
+tools:
+- name: create_user
+  rest: POST /user
+  summary: Create a user account for a partner customer, with an initial subscription.
+  consequence: write
+- name: get_user
+  rest: GET /user/{userId}
+  summary: Retrieve one user account.
+  consequence: read
+- name: search_users
+  rest: POST /user/search
+  summary: Search user accounts by attribute.
+  consequence: read
+- name: update_user
+  rest: PUT /user/{userId}
+  summary: Update a user; unprovided fields are left unchanged.
+  consequence: write
+- name: create_subscription
+  rest: POST /user/{userId}/subscription
+  summary: Grant a user a period of access to Abi.
+  consequence: write
+- name: get_subscription
+  rest: GET /user/{userId}/subscription/{subscriptionId}
+  summary: Retrieve one subscription.
+  consequence: read
+- name: list_subscriptions
+  rest: GET /user/{userId}/subscriptions
+  summary: List all subscriptions for a user.
+  consequence: read
+- name: cancel_subscription
+  rest: DELETE /user/{userId}/subscription/{subscriptionId}
+  summary: Cancel a subscription. Irreversible per the docs.
+  consequence: destructive
+- name: deactivate_user
+  rest: DELETE /user/{userId}/subscriptions
+  summary: Cancel every subscription, removing the user's access. Reversible by creating a new one.
+  consequence: destructive
+- name: get_subscription_history
+  rest: GET /user/{userId}/subscription/{subscriptionId}/history
+  summary: Retrieve auto-renewal descendants of a subscription.
+  consequence: read
+- name: cancel_subscription_history
+  rest: PATCH /user/{userId}/subscription/{subscriptionId}/history/cancel
+  summary: Cancel every renewal descended from a subscription.
+  consequence: destructive
+- name: create_consultation
+  rest: POST /consultation
+  summary: Ask up to three medical questions on behalf of an active user.
+  consequence: write
+- name: get_consultation
+  rest: GET /consultation/{consultationId}
+  summary: Retrieve a consultation and, once resolved, the clinician's answer.
+  consequence: read
+- name: add_followup_consultation
+  rest: POST /consultation/{consultationId}
+  summary: Add a follow-up question to a resolved consultation.
+  consequence: write
+- name: cancel_consultation
+  rest: PATCH /consultation/{consultationId}/cancel
+  summary: Cancel a consultation. Irreversible; cannot be applied to an already closed one.
+  consequence: destructive
+- name: close_consultation
+  rest: PATCH /consultation/{consultationId}/close
+  summary: Close a consultation, optionally with a 1-5 rating. Irreversible.
+  consequence: destructive
+- name: list_user_consultations
+  rest: GET /user/{userId}/case-history
+  summary: List a user's consultation history.
+  consequence: read
+- name: start_navigator_conversation
+  rest: POST /v2/health-navigator/users/{userId}/conversations
+  summary: Open a Health Navigator session with optional context.
+  consequence: write
+- name: send_navigator_message
+  rest: POST /v2/health-navigator/messages
+  summary: Send a message into an open Health Navigator conversation.
+  consequence: write
+- name: close_navigator_conversation
+  rest: PATCH /v2/health-navigator/conversations/close
+  summary: Close a Health Navigator session.
+  consequence: write
+- name: get_navigator_conversation
+  rest: GET /v2/health-navigator/conversations/{conversationId}
+  summary: Retrieve a conversation and its message history.
+  consequence: read
+- name: list_indication_surveys
+  rest: GET /prescription/survey/{lang}
+  summary: List the indication surveys available to the partner in a language.
+  consequence: read
+- name: create_prescription
+  rest: POST /prescription
+  summary: Request a form-based prescription from completed survey answers.
+  consequence: write
+- name: manage_webhooks
+  rest: POST /webhook, GET /webhook, DELETE /webhook
+  summary: Subscribe to, read and remove event subscriptions.
+  consequence: write

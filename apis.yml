@@ -1,18 +1,95 @@
 aid: abiglobalhealth
-name: Abiglobalhealth
-description: 'Abiglobalhealth is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+name: Abi Global Health
+description: >-
+  Abi Global Health is an AI-native healthcare navigation, virtual care orchestration and clinical
+  cost management platform founded in Dublin, Ireland in 2016. Abi sells to health insurers,
+  employee benefits providers, TPAs, assistance companies, digital health organisations,
+  pharmaceutical companies and public health programmes rather than direct to consumers, and
+  delivers text, voice and video consultations, mental-health screening, form-based prescriptions
+  and the Abi Navigator AI triage assistant through chat apps, an embeddable widget, a web app and
+  a partner REST API. The Abi API (documented at docs.abi.ai, base https://client-api.abi.ai with
+  Hong Kong and mainland-China regional bases) covers users, subscriptions, consultations,
+  prescriptions, Health Navigator conversations and outbound webhooks, and is gated behind a
+  partner account and an issued API key.
+image: https://www.abiglobalhealth.com/hubfs/AbiLogoMark_314x262px_RGB.png
 url: https://raw.githubusercontent.com/api-evangelist/abiglobalhealth/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
+position: Producing
 specificationVersion: '0.20'
 created: '2026-09-06'
 modified: '2026-09-06'
 tags:
 - Company
-apis: []
+- Telehealth
+- Virtual Care
+- Digital Health
+- Health Insurance
+- Healthcare Navigation
+- Artificial Intelligence
+- Prescriptions
+- Webhooks
+- Ireland
+tags_raw:
+- company
+- telehealth
+- virtual-care
+- digital-health
+- health-insurance
+- healthcare-navigation
+- artificial-intelligence
+- prescriptions
+- webhooks
+- ireland
+apis:
+- name: Abi API
+  description: >-
+    Partner REST API for managing user accounts, subscriptions, text consultations, form-based
+    prescriptions, Health Navigator AI conversations and outbound webhooks. Resource-oriented URLs,
+    JSON responses, conventional HTTP status codes. Authentication is a partner API key exchanged
+    at POST /partner/authorization/token for a one-hour Bearer access_token and a 24-hour
+    refresh_token. Three regional bases are published: https://client-api.abi.ai (primary),
+    https://ape1.api.abi.ai (Hong Kong) and https://client-api.abiglobalhealth.cn (China).
+  humanURL: https://docs.abi.ai/
+  baseURL: https://client-api.abi.ai
+  image: https://www.abiglobalhealth.com/hubfs/AbiLogoMark_314x262px_RGB.png
+  tags:
+  - Telehealth
+  - Virtual Care
+  - Healthcare Navigation
+  - Prescriptions
+  - Webhooks
+  - Health Insurance
+  tags_raw:
+  - telehealth
+  - virtual-care
+  - healthcare-navigation
+  - prescriptions
+  - webhooks
+  - health-insurance
+  properties:
+  - type: Documentation
+    url: https://docs.abi.ai/
+  - type: APIReference
+    url: https://docs.abi.ai/
+  - type: Authentication
+    url: authentication/abiglobalhealth-authentication.yml
+  - type: Conventions
+    url: conventions/abiglobalhealth-conventions.yml
+  - type: ErrorCatalog
+    url: errors/abiglobalhealth-problem-types.yml
+  - type: Webhooks
+    url: asyncapi/abiglobalhealth-webhooks.yml
+  - type: DataModel
+    url: data-model/abiglobalhealth-data-model.yml
+  - type: Vocabulary
+    url: vocabulary/abiglobalhealth-vocabulary.yml
+  - type: Sandbox
+    url: sandbox/abiglobalhealth-sandbox.yml
+  - type: RateLimits
+    url: rate-limits/abiglobalhealth-rate-limits.yml
+  - type: X-MCPServerCandidate
+    url: mcp/abiglobalhealth-mcp.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -20,4 +97,61 @@ maintainers:
   email: info@apis.io
 common:
 - type: Website
-  url: https://equityzen.com/company/abiglobalhealth
+  url: https://www.abiglobalhealth.com/
+- type: DeveloperPortal
+  url: https://docs.abi.ai/
+- type: Documentation
+  url: https://docs.abi.ai/
+- type: APIReference
+  url: https://docs.abi.ai/
+- type: Support
+  url: https://www.abiglobalhealth.com/contact
+- type: Blog
+  url: https://www.abiglobalhealth.com/resources
+- type: GitHubOrganization
+  url: https://github.com/abiglobalhealth
+- type: SignUp
+  url: https://www.abiglobalhealth.com/demo-form
+- type: Login
+  url: https://partner.abi.ai/login
+- type: PrivacyPolicy
+  url: https://www.abiglobalhealth.com/privacy-policy
+- type: LLMsTxt
+  url: llms/abiglobalhealth-llms.txt
+- type: Authentication
+  url: authentication/abiglobalhealth-authentication.yml
+- type: Conventions
+  url: conventions/abiglobalhealth-conventions.yml
+- type: ErrorCatalog
+  url: errors/abiglobalhealth-problem-types.yml
+- type: Webhooks
+  url: asyncapi/abiglobalhealth-webhooks.yml
+- type: DataModel
+  url: data-model/abiglobalhealth-data-model.yml
+- type: Vocabulary
+  url: vocabulary/abiglobalhealth-vocabulary.yml
+- type: Lifecycle
+  url: lifecycle/abiglobalhealth-lifecycle.yml
+- type: Conformance
+  url: conformance/abiglobalhealth-conformance.yml
+- type: Compliance
+  url: conformance/abiglobalhealth-conformance.yml
+- type: Packages
+  url: packages/abiglobalhealth-packages.yml
+- type: SDKs
+  url: packages/abiglobalhealth-packages.yml
+- type: Components
+  url: components/abiglobalhealth-components.yml
+- type: Sandbox
+  url: sandbox/abiglobalhealth-sandbox.yml
+- type: Plans
+  url: plans/abiglobalhealth-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/abiglobalhealth-rate-limits.yml
+- type: DomainSecurity
+  url: security/abiglobalhealth-domain-security.yml
+x-enrichment:
+  date: '2026-09-06'
+  status: enriched
+  artifacts_added: 17
+  pass: local-v3

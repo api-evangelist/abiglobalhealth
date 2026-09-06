@@ -1,0 +1,134 @@
+generated: '2026-09-06'
+method: searched
+source: >-
+  https://www.abiglobalhealth.com/ (footer "CERTIFICATIONS & COMPLIANCE" block),
+  https://www.abiglobalhealth.com/llms.txt (Compliance and governance section),
+  https://docs.abi.ai/ (Data protection / Status Codes sections)
+note: >-
+  Certification claims are the provider's own published statements on its website footer and in its
+  llms.txt. Abi publishes no trust centre, no audit report, and no certificate number, so these are
+  recorded as published claims with the page they appear on — not as verified attestations. The
+  technical conformance rows below are read from the published API reference.
+compliance_program:
+  published: true
+  managed_with: Sprinto
+  managed_with_evidence: >-
+    "Compliance managed with Sprinto" — site footer, https://www.abiglobalhealth.com/
+  certification_body_claimed: INTERCERT
+  certification_body_evidence: '"Certified · INTERCERT" — site footer'
+  trust_center: null
+  trust_center_note: >-
+    No trust centre, security portal or downloadable report is linked from the site. The claims are
+    plain footer text.
+certifications:
+- id: iso-27001
+  name: ISO/IEC 27001:2022
+  claimed: true
+  scope: Information security management system
+  evidence: https://www.abiglobalhealth.com/
+  evidence_note: Footer "CERTIFICATIONS & COMPLIANCE" block; repeated in llms.txt.
+- id: iso-27701
+  name: ISO/IEC 27701
+  claimed: true
+  scope: Privacy information management system
+  evidence: https://www.abiglobalhealth.com/
+- id: iso-42001
+  name: ISO/IEC 42001:2023
+  claimed: true
+  scope: AI management system
+  evidence: https://www.abiglobalhealth.com/
+  evidence_note: >-
+    Notable for a telehealth vendor — an AI management system certification alongside the security
+    and privacy ones.
+- id: hipaa
+  name: HIPAA
+  claimed: true
+  claim_form: '"HIPAA Compliant" (footer); "HIPAA-aligned safeguards for protected health information (PHI)" (llms.txt)'
+  evidence: https://www.abiglobalhealth.com/llms.txt
+  note: >-
+    llms.txt adds "For applicable US engagements, Abi can support Business Associate Agreements
+    (BAAs) where required." No BAA is published.
+- id: gdpr
+  name: GDPR
+  claimed: true
+  claim_form: '"GDPR Compliant" (footer); "GDPR-aligned privacy controls" (llms.txt)'
+  evidence: https://www.abiglobalhealth.com/privacy-policy
+- id: soc-2
+  name: SOC 2
+  claimed: false
+  note: Not claimed anywhere on the public surface. Recorded as absent, not as failed.
+conformance:
+- id: rest
+  conforms: true
+  evidence: >-
+    https://docs.abi.ai/ — "It is organized around REST and has predictable, resource-oriented
+    URLs... uses standard HTTP response codes, authentication, and verbs."
+- id: http-status-semantics
+  conforms: true
+  evidence: >-
+    https://docs.abi.ai/ — published status-code table (200/204/400/403/404/409/504) with
+    conventional meanings.
+- id: json
+  conforms: true
+  evidence: https://docs.abi.ai/ — "returns JSON-encoded responses".
+- id: webhooks
+  conforms: true
+  evidence: >-
+    https://docs.abi.ai/ — named event catalog of 19 events with a per-event subscription model.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    Probed https://client-api.abi.ai/.well-known/oauth-authorization-server (404, 2026-09-06). The
+    published flow is a proprietary API-key-for-bearer-token exchange with no grant types, scopes
+    or authorization endpoint.
+- id: oidc
+  conforms: false
+  evidence: >-
+    Probed https://www.abiglobalhealth.com/.well-known/openid-configuration and the abi.ai hosts
+    (404 / SPA shell, 2026-09-06).
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    The published error envelope is {code, message} with content-type application/json, not
+    application/problem+json.
+- id: rfc8594-sunset
+  conforms: false
+  evidence: No deprecation, Sunset or Deprecation header policy is published.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    Referenced once in the 409 description but no header, key format or retention window is
+    documented. See conventions/abiglobalhealth-conventions.yml.
+- id: pagination
+  conforms: false
+  evidence: No paging parameters or envelope are documented on the collection endpoints.
+domain_standards:
+  market: telehealth / virtual care / health insurance integration
+  found: false
+  probed:
+  - id: fhir
+    present: false
+    note: >-
+      No FHIR resource names, no /fhir base, no CapabilityStatement, and no
+      application/fhir+json content type appears anywhere in the published reference. The Abi data
+      model is proprietary (User / Subscription / Consultation / Prescription), not
+      Patient / Coverage / Encounter / MedicationRequest.
+  - id: hl7v2
+    present: false
+  - id: dicom
+    present: false
+  - id: x12
+    present: false
+    note: No eligibility (270/271) or claim (837) transaction surface is published.
+  - id: scim
+    present: false
+    note: >-
+      User provisioning is done over Abi's own /user endpoints, not a SCIM schema URN.
+  - id: smart-on-fhir
+    present: false
+  note: >-
+    Abi's market has well-established interchange standards (FHIR above all) and Abi's published
+    contract declares none of them. Recorded as an honest absence — the domain_standard check is
+    reward-only, so nothing has been invented to fill it. This is the single clearest
+    interoperability gap in the profile: an insurer or health system integrating Abi needs a
+    bespoke connector.

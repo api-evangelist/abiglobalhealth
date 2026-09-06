@@ -1,0 +1,92 @@
+generated: '2026-09-06'
+method: searched
+source: https://docs.abi.ai/ (Abi API Reference — Glossary)
+api: Abi API
+docs: https://docs.abi.ai/
+note: >-
+  The provider publishes a glossary defining the domain terms its API uses. Captured verbatim; no term
+  has been added, renamed or reworded.
+term_count: 23
+terms:
+- term: Abi
+  definition: >-
+    Our chatbot service that enables your customers to address their health concerns with answers from
+    licensed healthcare professionals.
+- term: Abi Global Health Ltd. (AGH)
+  definition: Our company, which develops and maintains Abi and our APIs.
+- term: Account Policy Holder
+  definition: >-
+    The primary user of a group account. This is the main user to whom all other users are related.
+- term: Active Subscription
+  definition: >-
+    A subscription for which the current date is after the subscription start date and before the subscription
+    end date, which has not been cancelled, and whose active field is set to true.
+- term: Active User
+  definition: >-
+    The status assigned to a user with an active subscription. This user has access to Abi and can ask
+    a medical question.
+- term: Active User Account
+  definition: A user with an active subscription.
+- term: Country
+  definition: The nationality of a user.
+- term: Deactivate a user account
+  definition: >-
+    Remove all subscriptions from a user account. A deactivated user no longer has access to Abi and cannot
+    ask questions in our chatbot. A user can be reactivated at any time by creating a new subscription
+    for them.
+- term: Deactivated User
+  definition: >-
+    The status assigned to a user who has no active or future subscriptions and therefore has no access
+    to Abi and cannot ask a medical question.
+- term: Engaged User
+  definition: >-
+    A user who has interacted with Abi in some way since their user account was created. This includes
+    choosing a chat application, replying to their Activation SMS, or asking a medical question. Note
+    that a user can be engaged without having an active subscription. In other words, a user can be engaged
+    but not live.
+- term: Group Account
+  definition: >-
+    A type of account that allows multiple users to be associated with a single account policy holder.
+    This is often used by families.
+- term: Live User
+  definition: A user with at least one active subscription.
+- term: Location
+  definition: The country where a user lives.
+- term: Origin
+  definition: The country where a user was born.
+- term: Partner
+  definition: >-
+    Your company within our system. Each company that does business with us is referred to as a partner.
+    Our system is made up of partners (you) and users (your customers).
+- term: Pending Activation
+  definition: >-
+    The status assigned to a user who has no active subscriptions but does have a future subscription
+    that has not yet been activated. This user does not have access to Abi and cannot ask a medical question.
+- term: Physician Country
+  definition: >-
+    The country or countries in which the doctors and healthcare professionals who answer your users’
+    questions are licensed.
+- term: Product
+  definition: >-
+    A way to distinguish between the types of users you create when they are related to one or more insurance
+    products on your end, such as a free promotion or short-term travel.
+- term: Subpartner
+  definition: >-
+    A way to distinguish between the different service names or companies through which you offer Abi
+    to your customers. This is usually applicable only to large corporations.
+- term: Subscription
+  definition: >-
+    A period during which a user can access Abi and ask healthcare professionals medical questions. Each
+    user can have multiple subscriptions.
+- term: User Account
+  definition: >-
+    Your customer within our system. Our system is made up of partners (you) and users (your customers).
+- term: User Id
+  definition: >-
+    A unique identifier that Abi creates and returns to you when you send a user creation request. Each
+    user uses this ID to authenticate with Abi and use our service. When you create a user, please note
+    this field, as you will need it whenever you want to retrieve or modify the user's account or subscription.
+- term: User Unique Id
+  definition: >-
+    A unique identifier for your customer within your system, such as their insurance number. This optional
+    field can be sent when creating a user account. It allows you to easily track your users in our system.
