@@ -28,7 +28,7 @@ tags:
 - Healthcare Navigation
 - Artificial Intelligence
 - Prescriptions
-- Webhooks
+- Webhook
 - Ireland
 tags_raw:
 - company
@@ -58,7 +58,7 @@ apis:
   - Virtual Care
   - Healthcare Navigation
   - Prescriptions
-  - Webhooks
+  - Webhook
   - Health Insurance
   tags_raw:
   - telehealth
