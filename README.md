@@ -64,79 +64,115 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Abi Global Health Ltd. (AGH) is an AI-native healthcare navigation, virtual care orchestration and
-clinical cost management company founded in Dublin, Ireland in 2016. It sells to health insurers,
-employee benefits providers, TPAs, assistance companies, digital health organisations,
-pharmaceutical companies and public health programmes — not direct to consumers — and delivers
-text, voice and video consultations, mental-health screening, form-based prescriptions and the Abi
-Navigator AI triage assistant through chat apps, an embeddable widget, a hosted web app and a
-partner REST API.
+Abi Global Health is an AI-native healthcare navigation, virtual care orchestration and clinical cost management platform founded in Dublin, Ireland in 2016. Abi sells to health insurers, employee benefits providers, TPAs, assistance companies, digital health organisations, pharmaceutical companies and public health programmes rather than direct to consumers, and delivers text, voice and video consultations, mental-health screening, form-based prescriptions and the Abi Navigator AI triage assistant through chat apps, an embeddable widget, a web app and a partner REST API. The Abi API (documented at docs.abi.ai, base https://client-api.abi.ai with Hong Kong and mainland-China regional bases) covers users, subscriptions, consultations, prescriptions, Health Navigator conversations and outbound webhooks, and is gated behind a partner account and an issued API key.
 
-- Website: https://www.abiglobalhealth.com/
-- API reference: https://docs.abi.ai/
-- GitHub: https://github.com/abiglobalhealth
-- LinkedIn: https://www.linkedin.com/company/abi-global-health
+**Areas:** Company · Telehealth · Virtual Care · Digital Health · Health Insurance · Healthcare Navigation · Artificial Intelligence · Prescriptions · Webhook · Ireland
 
-## What this profile found
+## Abi Global Health on APIs.io
 
-The Abi API is documented publicly at **docs.abi.ai** — a client-side React application titled
-"Abi API Reference" whose entire contents ship inside one JavaScript bundle. It documents **39
-operations** across users, subscriptions, consultations, form-based prescriptions, Health Navigator
-conversations and webhooks, **three regional base URLs**
-(`https://client-api.abi.ai`, `https://ape1.api.abi.ai` for Hong Kong, and
-`https://client-api.abiglobalhealth.cn` for China), a partner-API-key-for-Bearer-token
-authentication flow, a seven-entry status-code table, a 23-term glossary and a **19-event webhook
-catalog**.
+Everything profiled for Abi Global Health is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/abiglobalhealth/](https://apis.io/providers/abiglobalhealth/)** — or go straight to one of the APIs or properties below.
 
-**No machine-readable contract is published.** `/openapi.json`, `/openapi.yaml`, `/swagger.json`,
-`/api-docs`, `/redoc`, `/v1/openapi.json` and `/graphql` were probed on both live API hosts and on
-the docs host (2026-09-06): the API hosts return clean JSON 404s and the docs host returns its SPA
-shell with HTTP 200 for every path. There is no OpenAPI, no AsyncAPI, no GraphQL SDL, no Postman
-collection and no `.proto` or WSDL anywhere on the public surface, and no OpenAPI has been generated
-here from the documentation — that would be fabrication.
+### APIs (1)
 
-Abi does publish a genuine, substantial **`/llms.txt`** (7.8 KB, saved verbatim in `llms/`), which
-is unusual for a company of this size and is the strongest agent-facing signal in the profile.
+- [Abi API](https://apis.io/apis/abiglobalhealth/abi-api/) — Partner REST API for managing user accounts, subscriptions, text consultations, form-based prescriptions, Health Navigator AI conversations and outbound…
 
-### Notable gaps
+### Published properties
 
-- **No FHIR, HL7v2, X12 or SMART-on-FHIR anywhere in the contract.** For a company selling into
-  insurers and health systems, this is the clearest interoperability gap: every integration needs a
-  bespoke connector.
-- **No pricing, no terms of service, no status page, no changelog, no deprecation policy, no
-  documented rate limits.** Each was probed and recorded as an honest zero.
-- **No MCP server and no A2A agent card**, despite the product itself being an LLM assistant whose
-  own message format already carries a typed action/resource union.
-- The only first-party package, `@abiglobalhealth/goapp-react-native`, last shipped **2025-02-27**
-  and its source repository now returns 404.
-- The company's own `llms.txt` links `https://www.abiglobalhealth.com/abi-navigator`, which returns
-  **404**, and the API reference links `https://pro.abi.ai/join`, which serves a Squarespace
-  "Domain Not Claimed" page.
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Compliance claims
+#### AsyncAPI (1)
 
-The site footer and `llms.txt` claim **ISO/IEC 27001:2022, ISO/IEC 27701, ISO/IEC 42001:2023**,
-HIPAA-aligned safeguards and GDPR compliance, certified via INTERCERT with the programme managed in
-Sprinto. No trust centre, certificate number or audit report is published, so these are recorded as
-published claims rather than verified attestations.
+Event-driven and webhook contracts.
 
-## Artifacts in this repository
+- [Abiglobalhealth Webhooks](https://apis.io/asyncapis/abiglobalhealth/abiglobalhealth-webhooks/)
 
-| Path | What it holds |
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [abiglobalhealth-mcp.yml](https://apis.io/servers/abiglobalhealth/abiglobalhealth-mcp-yml/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Abiglobalhealth Authentication](https://apis.io/security/abiglobalhealth/abiglobalhealth-authentication/)
+- [Abiglobalhealth Domain Security](https://apis.io/security/abiglobalhealth/abiglobalhealth-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Abiglobalhealth Plans Pricing](https://apis.io/plans/abiglobalhealth/abiglobalhealth-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Abiglobalhealth Rate Limits](https://apis.io/rate-limits/abiglobalhealth/abiglobalhealth-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.abiglobalhealth.com/)
+- [Documentation](https://docs.abi.ai/)
+- [API reference](https://docs.abi.ai/)
+- [Sign up](https://www.abiglobalhealth.com/demo-form)
+- [Support](https://www.abiglobalhealth.com/contact)
+- [Blog](https://www.abiglobalhealth.com/resources)
+- [Privacy policy](https://www.abiglobalhealth.com/privacy-policy)
+- [GitHub](https://github.com/abiglobalhealth)
+
+## API Evangelist rating
+
+**Kin Score 37.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
 |---|---|
-| `llms/` | The provider's own `llms.txt`, saved verbatim |
-| `authentication/` | The API-key → Bearer token flow, sub-partner authentication |
-| `conventions/` | REST style, regional bases, idempotency verdict, reversibility grading |
-| `errors/` | The published status-code catalog and error envelope |
-| `asyncapi/` | The 19-event webhook catalog and subscription management surface |
-| `vocabulary/` | The provider's 23-term published glossary |
-| `data-model/` | Eight entities and eleven relationships read from the published object reference |
-| `conformance/` | Certification claims and technical/domain-standard conformance |
-| `lifecycle/` | Versioning, deprecation, status, SLA, support |
-| `packages/` | The single npm package, with dated release evidence |
-| `components/` | Chatbot, widget, web app and API interface inventory |
-| `sandbox/` | The test partner account model |
-| `plans/`, `rate-limits/` | Honest zeros, with the probes behind them |
-| `security/` | TLS/HSTS/DNSSEC/CAA/SPF/DMARC probe results |
-| `well-known/` | An eleven-host `.well-known` probe, all misses, with SPA false positives flagged |
-| `mcp/` | A candidate tool mapping — **no MCP server exists** |
+| Discoverability | 73.2 |
+| Contract quality | 39.0 |
+| Contract governance | 33.3 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 33.3 |
+| Access clarity | 31.6 |
+
+**Agent readiness 28.1** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | — |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 23.5** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/abiglobalhealth/](https://apis.io/providers/abiglobalhealth/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Abi Global Health: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/abiglobalhealth/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
